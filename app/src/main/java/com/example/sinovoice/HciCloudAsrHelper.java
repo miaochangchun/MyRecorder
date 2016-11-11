@@ -97,9 +97,14 @@ public class HciCloudAsrHelper {
         asrConfig.addParam(AsrConfig.AudioConfig.PARAM_KEY_AUDIO_FORMAT, "pcm16k16bit");
         //录音的压缩格式，建议使用speex进行压缩
         asrConfig.addParam(AsrConfig.AudioConfig.PARAM_KEY_ENCODE, "speex");
+        //识别时需要配置的功能
         asrConfig.addParam(AsrConfig.SessionConfig.PARAM_KEY_CAP_KEY, capkey);
+        //设置为实时识别方式，录音过程中把音频实时进行上传，提升识别的速度
         asrConfig.addParam(AsrConfig.SessionConfig.PARAM_KEY_REALTIME, "yes");
+        //识别结果中加上标点符号
         asrConfig.addParam(AsrConfig.ResultConfig.PARAM_KEY_ADD_PUNC, "yes");
+        //不进行端点检测
+        asrConfig.addParam("vadSwitch", "no");
         return asrConfig.getStringConfig();
     }
 
