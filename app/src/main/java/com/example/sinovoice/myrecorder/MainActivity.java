@@ -9,12 +9,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sinovoice.HciCloudAsrHelper;
 import com.example.sinovoice.HciCloudSysHelper;
+import com.example.sinovoice.presenter.TranslationHelper;
+import com.example.sinovoice.view.ITranslateView;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener, ITranslateView{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private EditText result;
@@ -23,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private HciCloudSysHelper mHciCloudSysHelper;
     private HciCloudAsrHelper mHciCloudAsrHelper;
     private TextView state;
+    private String initCapkeys = "asr.cloud.freetalk;asr.cloud.freetalk.uyghur";
+    private ProgressBar pBar;
+    private TranslationHelper translationHelper = new TranslationHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +40,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         uyBtn = (Button) findViewById(R.id.uyRecorder);
         state = (TextView) findViewById(R.id.stateView);
 
+        pBar = (ProgressBar) findViewById(R.id.pBar);
+
         cnBtn.setOnTouchListener(this);
         uyBtn.setOnTouchListener(this);
 
         mHciCloudSysHelper = HciCloudSysHelper.getInstance();
         mHciCloudAsrHelper = HciCloudAsrHelper.getInstance();
         mHciCloudSysHelper.init(this);
-        mHciCloudAsrHelper.initAsrRecorder(this, "asr.cloud.freetalk;asr.cloud.freetalk.uyghur");
+        mHciCloudAsrHelper.initAsrRecorder(this, initCapkeys);
         mHciCloudAsrHelper.setMyHander(new MyHander());
     }
 
@@ -90,6 +98,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             default:
                 break;
         }
+    }
+
+    @Override
+    public void showLoading() {
+        pBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        pBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void toMainActivity(String response) {
+
+    }
+
+    @Override
+    public void showFailedError(Exception e) {
+
     }
 
     private class MyHander extends Handler{

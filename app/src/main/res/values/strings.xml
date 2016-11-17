@@ -3,4 +3,5 @@
     <string name="uyRecorder">维语识别</string>
     <string name="startRecorder">中文识别</string>
     <string name="state">状态：</string>
+    <string name="transText">翻译</string>
 </resources>

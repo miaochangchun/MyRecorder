@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile files('libs/hcicloud-5.0.jar')
+    compile files('libs/commons-httpclient-3.0.1.jar')
 }
